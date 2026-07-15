@@ -1,7 +1,9 @@
-
+import Button from "../../../shared/components/Button/Button"
 import { Plus } from "lucide-react"
 
-export default function NotesHeader() {
+export default function NotesHeader({
+    onCreateNote,
+}) {
     return (
         <div className="flex items-center justify-between mb-8">
 
@@ -17,22 +19,14 @@ export default function NotesHeader() {
 
             </div>
 
-            <button
-              className="
-               flex
-               items-center
-               gap-2
-               bg-blue-600
-               hover:bg-blue-700
-               transition
-               px-5
-               py-3
-               rounded-xl"
+            <Button
+               onClick={onCreateNote}
+               className="flex items-center gap-2 cursor-pointer"
             >
                <Plus size={20}/>
 
                Nova Nota
-            </button>
+            </Button>
 
         </div>
     )

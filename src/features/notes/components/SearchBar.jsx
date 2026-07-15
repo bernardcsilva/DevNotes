@@ -1,6 +1,7 @@
 import { Search } from "lucide-react"
+import Input from "../../../shared/components/Input/Input"
 
-export default function SearchBar() {
+export default function SearchBar({ search, setSearch }) {
     return(
         <div className="relative mb-8">
 
@@ -14,21 +15,11 @@ export default function SearchBar() {
               text-slate-500"
             />
 
-            <input 
-              type="text"
-              placeholder="Pesquisar por título, categoria ou tags.."
-              className="
-              w-full
-              rounded-xl
-              bg-slate-900
-              border
-              border-slate-800
-              py-4
-              pl-12
-              pr-4
-              outline-none
-              focus:border-blue-500"
-            />
+            <Input 
+              placeholder="Pesquisar notas..."
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              className="pl-12"/>
             
         </div>
     )

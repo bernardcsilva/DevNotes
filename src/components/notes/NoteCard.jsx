@@ -1,24 +1,93 @@
+import Button from "../../shared/components/Button/Button"
+import { Star } from "lucide-react"
 
-export default function NoteCard({ note }) {
+export default function NoteCard({ note, onEdit, onDelete, onFavorite }) {
     return (
-        <div className="border border-slate-800 rounded-xl p-5 bg-slate-900 hover:border-blue-500 transition">
+        <div className="
+                 border 
+                 border-slate-800 
+                 rounded-xl 
+                 p-5 
+                 bg-slate-900 
+                 hover:border-blue-500 
+                 transition-all
+                 hover:-translate-y-1
+                 hover:shadow-lg
+                 cursor-pointer
+                 "
+        >
             
-            <h2 className="text-xl font-semibold">
-                {note.title}
-            </h2>
+            <div className="flex items-start justify-between">
 
-            <p className="text-slate-400 mt-2">
-                Categoria: {note.category}
+                <h2 className="text-xl font-semibold">
+                    {note.title}
+                </h2>
+
+                <span className="
+                        inline-block
+                        mt-2
+                        rounded-full
+                        bg-slate-800
+                        px-3
+                        py-1
+                        text-xs
+                        text-slate-400"
+                >
+                    {note.category}
+                </span>
+
+            </div>
+
+            <button
+                onClick={() => onFavorite(note.id)}
+                className="text-slate-500 hover:text-yellow-400 transition"
+            >
+                <Star
+                    size={22}
+                    fill={note.favorite ? "currentColor" : "none"}/>
+            </button>
+
+            <p className="mt-4 text-slate-400 line-clamp-3">
+                {note.content}
             </p>
 
-            <div className="flex gap-2 mt-4 flex-wrap">
-                {note.tags.map((tap) => (
+            <div className="flex gap-2 mt-5 flex-wrap">
+                {note.tags?.map((tag) => (
                     <span
                       key={tag}
-                      className="bg-slate-800 px-3 py-1 rounded-full text-sm">
+                      className="bg-blue-900/40 px-3 py-1 rounded-full text-xs text-blue-300">
                         #{tag}
                     </span>
                 ))}
+            </div>
+
+            <div className="mt-6 border-t border-slate-800 pt-4">
+
+                <p className="text-xs text-slate-500">
+                    Criada em{" "}
+                    {new Date(note.createdAt).toLocaleDateString("pt-BR")}
+                </p>
+
+                <div className="mt-4 flex justify-end gap-3">
+
+                {onEdit && (
+                    <Button
+                        onClick={() => onEdit(note)}
+                        variant="secondary">
+                            Editar
+                    </Button>
+                )}
+
+                {onDelete && (
+                    <Button
+                        onClick={() => onDelete(note.id)}
+                        variant="danger"
+                    >
+                        Excluir
+                    </Button>
+                )}
+                
+                </div>
             </div>
         </div>
     )

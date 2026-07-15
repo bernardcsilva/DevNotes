@@ -8,7 +8,22 @@ import {
     Tags,
 } from "lucide-react"
 
-export default function Dashboard() {
+export default function Dashboard({ notes }) {
+
+    const totalNotes = notes.length
+
+    const totalFavorites = notes.filter(
+        (note) => note.favorite
+    ).length
+
+    const totalCategories = new Set(
+        notes.map((note) => note.category)
+    ).size
+
+    const totalTags = new Set(
+        notes.flatMap((note) => note.tags)
+    ).size
+
     return (
         <>
         <MainLayout>
@@ -25,25 +40,25 @@ export default function Dashboard() {
 
                 <StatCard
                   title="Notas"
-                  value="100"
+                  value={totalNotes}
                   icon={NotebookPen}
                 />
 
                 <StatCard
                   title="Favoritos"
-                  value="30"
+                  value={totalFavorites}
                   icon={Star}
                 />
 
                 <StatCard
                   title="Categorias"
-                  value="12"
+                  value={totalCategories}
                   icon={Folder}
                 />
 
                 <StatCard
                   title="Tags"
-                  value="300"
+                  value={totalTags}
                   icon={Tags}
                 />
                 

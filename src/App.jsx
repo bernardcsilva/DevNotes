@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useState } from 'react'
+
+import { getAllNotes } from './features/notes/services/notesService'
 
 import Dashboard from './pages/Dashboard'
 import Notes from './pages/Notes'
@@ -8,14 +11,16 @@ import Settings from './pages/Settings'
 
 function App() {
 
+  const [notes, setNotes ] = useState(getAllNotes())
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Dashboard/>}/>
+        <Route path='/' element={<Dashboard notes={notes}/>}/>
 
-        <Route path='/notes' element={<Notes/>}/>
+        <Route path='/notes' element={<Notes notes={notes} setNotes={setNotes}/>}/>
 
-        <Route path='/favorites' element={<Favorites/>}/>
+        <Route path='/favorites' element={<Favorites notes={notes} setNotes={setNotes}/>}/>
 
         <Route path='/profile' element={<Profile/>}/>
 

@@ -7,6 +7,8 @@ import {
     User,
 } from "lucide-react"
 
+import { NavLink } from "react-router-dom"
+
 export default function Sidebar() {
     return (
         <aside className="w-72 border-r border-slate-800 bg-slate-900">
@@ -25,26 +27,32 @@ export default function Sidebar() {
 
           <nav className="p-4 flex flex-col gap-2">
 
-            <button className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
+            <NavLink 
+                to="/"
+                className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
 
                 <House size={20} />
 
                 Dashboard
-            </button>
+            </NavLink>
 
-            <button className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
+            <NavLink
+                to="/notes"
+                className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
 
                 <NotebookPen size={20} />
 
                 Notas
-            </button>
+            </NavLink>
 
-            <button className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
+            <NavLink
+                to="/favorites"
+                className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
 
                 <Star size={20} />
 
                 Favoritos
-            </button>
+            </NavLink>
 
             <button className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
 
@@ -53,19 +61,23 @@ export default function Sidebar() {
                 Categorias
             </button>
 
-            <button className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
+            <NavLink
+                to="/settings"
+                className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
 
                 <Settings size={20} />
 
                 Configurações
-            </button>
+            </NavLink>
 
-            <button className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
+            <NavLink
+                to="/profile"
+                className="flex items-center gap-3 rounded-lg p-3 hover:bg-slate-800 transition">
 
                 <User size={20} />
 
                 Perfil
-            </button>
+            </NavLink>
 
           </nav>
           
