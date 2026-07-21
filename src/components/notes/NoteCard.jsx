@@ -13,6 +13,7 @@ export default function NoteCard({ note, onEdit, onDelete, onFavorite }) {
                  transition-all
                  hover:-translate-y-1
                  hover:shadow-lg
+                 hover:shadow-blue-900/20
                  cursor-pointer
                  "
         >
@@ -40,7 +41,7 @@ export default function NoteCard({ note, onEdit, onDelete, onFavorite }) {
 
             <button
                 onClick={() => onFavorite(note.id)}
-                className="text-slate-500 hover:text-yellow-400 transition"
+                className="text-slate-500 hover:text-yellow-400 hover:scale-110 active:scale-95 transition-all duration-200"
             >
                 <Star
                     size={22}

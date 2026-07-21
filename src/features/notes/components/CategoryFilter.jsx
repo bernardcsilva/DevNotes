@@ -1,5 +1,5 @@
 
-export default function CategoryFilter() {
+export default function CategoryFilter({ selectedCategory, setSelectedCategory }) {
     const categories = [
         "Todos",
         "React",
@@ -14,7 +14,8 @@ export default function CategoryFilter() {
             {categories.map((category) => (
                 <button
                   key={category}
-                  className="rounded-full border border-slate-700 px-4 py-2 text-sm transition hover:border-blue-500 hover:text-blue-400"
+                  onClick={() => setSelectedCategory(category)}
+                  className="rounded-full border border-slate-700 px-4 py-2 text-sm transition hover:border-blue-500 hover:text-blue-400 cursor-pointer"
                 >
                     {category}
                 </button>

@@ -1,12 +1,20 @@
 
-export function filterNotes(notes, search) {
+export function filterNotes(notes, search, selectedCategory) {
+    let filteredNotes = notes
+
+     if (selectedCategory !== "Todos") {
+      filteredNotes = filteredNotes.filter(
+        (note) => note.category === selectedCategory
+      )
+    }
+
     if (!search.trim()) {
-        return notes
+        return filteredNotes
     }
 
     const term = search.toLowerCase()
 
-    return notes.filter((note) => {
+    return filteredNotes.filter((note) => {
         const titleMatch = note.title
           .toLowerCase()
           .includes(term)

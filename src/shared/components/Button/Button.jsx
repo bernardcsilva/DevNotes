@@ -21,10 +21,13 @@ export default function Button({
             px-5
             py-3
             rounded-xl
-            transition
+            transition-all
             font-medium
             ${variants[variant]}
             ${className}
+            cursor-pointer
+            active:scale-95
+            duration-200
           `}
           {...props}
         >

@@ -5,9 +5,16 @@ export default function NotesGrid({ notes, onEdit, onDelete, onFavorite }) {
 
     if (notes.length === 0) {
         return (
-            <p className="mt-8 text-center text-slate-400">
-                Nenhuma nota encontrada.
-            </p>
+            <div className="mt-16 text-center">
+
+                <h2 className="font-semibold text-2xl text-slate-300">
+                    Nenhuma nota encontrada.
+                </h2>
+
+                <p className="mt-3 text-slate-500">
+                    Tente pesquisar outro termo ou alterar a categoria.
+                </p>
+            </div>
         )
     }
     return (
