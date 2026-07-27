@@ -1,5 +1,6 @@
 import MainLayout from "../layouts/MainLayout"
 import StatCard from "../components/ui/StatCard"
+import { motion } from "framer-motion"
 
 import {
     NotebookPen,
@@ -9,6 +10,31 @@ import {
 } from "lucide-react"
 
 export default function Dashboard({ notes }) {
+
+    const containerVariants = {
+        hidden: {},
+
+        visible: {
+            transition: {
+                staggerChildren: 0.15,
+            },
+        },
+    }
+
+    const cardVariants = {
+        hidden: {
+            opacity: 0,
+            y: 30,
+        },
+
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                duration: 0.35,
+            },
+        },
+    }
 
     const totalNotes = notes.length
 
@@ -36,33 +62,46 @@ export default function Dashboard({ notes }) {
                 Continue organizando seus estudos.
             </p>
 
-            <div className="grid grid-cols-4 gap-6">
+            <motion.div 
+                className="grid grid-cols-4 gap-6"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+            >
 
-                <StatCard
-                  title="Notas"
-                  value={totalNotes}
-                  icon={NotebookPen}
-                />
+                <motion.div variants={cardVariants}>
+                    <StatCard
+                      title="Notas"
+                      value={totalNotes}
+                      icon={NotebookPen}
+                    />
+                </motion.div>
 
-                <StatCard
-                  title="Favoritos"
-                  value={totalFavorites}
-                  icon={Star}
-                />
+                <motion.div variants={cardVariants}>
+                    <StatCard
+                      title="Favoritos"
+                      value={totalFavorites}
+                      icon={Star}
+                    />
+                </motion.div>
 
-                <StatCard
-                  title="Categorias"
-                  value={totalCategories}
-                  icon={Folder}
-                />
+                <motion.div variants={cardVariants}>
+                    <StatCard
+                      title="Categorias"
+                      value={totalCategories}
+                      icon={Folder}
+                    />
+                </motion.div>
 
-                <StatCard
-                  title="Tags"
-                  value={totalTags}
-                  icon={Tags}
-                />
+                <motion.div variants={cardVariants}>
+                    <StatCard
+                      title="Tags"
+                      value={totalTags}
+                      icon={Tags}
+                    />
+                </motion.div>
                 
-            </div>
+            </motion.div>
             
         </MainLayout>
         </>

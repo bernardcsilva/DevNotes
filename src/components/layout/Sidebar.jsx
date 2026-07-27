@@ -5,11 +5,24 @@ import {
     Tags,
     Settings,
     User,
+    LogOut,
 } from "lucide-react"
 
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
+
+import { logoutUser } from "../../features/notes/services/authService"
 
 export default function Sidebar() {
+
+    const navigate = useNavigate()
+
+    async function handleLogout() {
+
+        await logoutUser()
+
+        navigate("/login")
+
+    }
     return (
         <aside className="w-72 border-r border-slate-800 bg-slate-900">
 
@@ -78,6 +91,28 @@ export default function Sidebar() {
 
                 Perfil
             </NavLink>
+
+            <hr className="border-slate-800 my-2"/>
+
+            <button
+                onClick={handleLogout}
+                className="
+                    flex
+                    items-center
+                    gap-3
+                    rounded-lg
+                    p-3
+                    hover:bg-red-900/30
+                    hover:text-red-400
+                    transition
+                    cursor-pointer"
+            >
+
+                <LogOut size={20} />
+
+                Sair
+
+            </button>
 
           </nav>
           

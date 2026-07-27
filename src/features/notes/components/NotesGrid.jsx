@@ -1,4 +1,4 @@
-
+import { AnimatePresence, motion } from "framer-motion"
 import NoteCard from "../../../components/notes/NoteCard"
 
 export default function NotesGrid({ notes, onEdit, onDelete, onFavorite }) {
@@ -19,9 +19,34 @@ export default function NotesGrid({ notes, onEdit, onDelete, onFavorite }) {
     }
     return (
         <div className="grid gap-6 mt-8 md:grid-cols-2 xl:grid-cols-3">
+            <AnimatePresence>
             {notes.map((note) => (
+                <motion.div
+                    key={note.id}
+                    layout
+                    initial={{
+                        opacity: 0,
+                        y: 20,
+                        scale: 0.97,
+                    }}
+                    animate={{
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                    }}
+                    exit={{
+                        opacity: 0,
+                        scale: 0.8,
+                        y: -40,
+                    }}
+                    transition={{
+                        duration: 0.3,
+                    }}
+                >
                 <NoteCard key={note.id} note={note} onEdit={onEdit} onDelete={onDelete} onFavorite={onFavorite}/>
+                </motion.div>
             ))}
+            </AnimatePresence>
         </div>
     )
 }

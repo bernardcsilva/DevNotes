@@ -1,5 +1,6 @@
 import Button from "../../shared/components/Button/Button"
 import { Star } from "lucide-react"
+import { motion } from "framer-motion"
 
 export default function NoteCard({ note, onEdit, onDelete, onFavorite }) {
     return (
@@ -39,14 +40,24 @@ export default function NoteCard({ note, onEdit, onDelete, onFavorite }) {
 
             </div>
 
-            <button
+            <motion.button
                 onClick={() => onFavorite(note.id)}
+                whileHover={{
+                    scale: 1.15,
+                }}
+                whileTap={{
+                    scale: 0.85,
+                    rotate: -15,
+                }}
+                transition={{
+                    duration: 0.15,
+                }}
                 className="text-slate-500 hover:text-yellow-400 hover:scale-110 active:scale-95 transition-all duration-200"
             >
                 <Star
                     size={22}
                     fill={note.favorite ? "currentColor" : "none"}/>
-            </button>
+            </motion.button>
 
             <p className="mt-4 text-slate-400 line-clamp-3">
                 {note.content}

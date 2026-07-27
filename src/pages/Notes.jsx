@@ -1,8 +1,10 @@
 import MainLayout from "../layouts/MainLayout"
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 import { filterNotes } from "../features/notes/utils/filterNotes"
 import { sortNotes } from "../features/notes/utils/sortNotes"
+import { addNote, getNotes, updateNote as updateFirestoreNote, deleteNote as deleteFirestoreNote } from "../features/notes/services/firestoreService"
+import { auth } from "../firebase/firebase"
 
 import NotesHeader from "../features/notes/components/NotesHeader"
 import SearchBar from "../features/notes/components/SearchBar"
@@ -27,6 +29,16 @@ export default function Notes({ notes, setNotes }) {
     const [selectedCategory, setSelectedCategory] = useState("Todos")
 
     const [noteToDelete, setNoteToDelete] = useState(null)
+
+    useEffect(() => {
+        async function loadNotes() {
+            const firestoreNotes = await getNotes()
+
+            setNotes(firestoreNotes)
+        }
+
+        loadNotes()
+    }, [])
 
     const filteredNotes = useMemo(() => {
         return filterNotes(notes, search, selectedCategory)
@@ -53,23 +65,40 @@ export default function Notes({ notes, setNotes }) {
         
     }
 
-    function createNote(newNote) {
+    async function createNote(newNote) {
         const note = {
             id: Date.now(),
             favorite: false,
             createdAt: new Date(),
             updatedAt: new Date(),
+            uid: auth.currentUser.uid,
             ...newNote,
         }
 
-        setNotes((previousNotes) => [note, ...previousNotes])
+
+        const firestoreId = await addNote(note)
+
+        setNotes((previousNotes) => [{
+            ...note,
+            firestoreId,
+        },
+        ...previousNotes,
+    ])
 
         toast.success("Nota criada com sucesso!")
 
         closeModal()
     }
 
-    function updateNote(updatedNote) {
+    async function updateNote(updatedNote) {
+
+        await updateFirestoreNote(
+            updatedNote.firestoreId,
+            {
+                ...updatedNote,
+                updatedAt: new Date(),
+            }
+        )
 
         setNotes((previousNotes) =>
         previousNotes.map((note) =>
@@ -100,7 +129,15 @@ export default function Notes({ notes, setNotes }) {
         setNoteToDelete(noteId)
     }
 
-    function confirmDelete() {
+    async function confirmDelete() {
+        const note = notes.find(
+            (note) => note.id === noteToDelete
+        )
+
+        if (!note) return
+
+        await deleteFirestoreNote(note.firestoreId)
+
         setNotes((previousNotes) => 
             previousNotes.filter(
                 (note) => note.id !== noteToDelete
@@ -116,14 +153,25 @@ export default function Notes({ notes, setNotes }) {
         setNoteToDelete(null)
     }
 
-    function toggleFavorite(id) {
-        setNotes((previousNotes) => 
+    async function toggleFavorite(id) {
+        const note = notes.find((note) => note.id === id)
+
+        if (!note) return
+
+        const updatedNote = {
+            ...note,
+            favorite: !note.favorite,
+        }
+
+        await updateFirestoreNote(
+            note.firestoreId,
+            updatedNote
+        )
+
+        setNotes((previousNotes) =>
             previousNotes.map((note) =>
-                note.id === id 
-                    ? {
-                        ...note,
-                        favorite: !note.favorite,
-                    }
+                note.id === id
+                    ? updatedNote
                     : note
                 )
             )

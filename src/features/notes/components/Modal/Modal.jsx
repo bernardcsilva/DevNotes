@@ -1,4 +1,5 @@
 import { X } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
 
 export default function Modal({
     isOpen,
@@ -6,10 +7,11 @@ export default function Modal({
     children,
     onClose,
 }) {
-    if (!isOpen) return null
 
     return (
-        <div
+      <AnimatePresence>
+        {isOpen && (
+        <motion.div
           onClick={onClose}
           className="
             fixed
@@ -20,8 +22,12 @@ export default function Modal({
             justify-center
             z-50
             p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
         >
-            <div
+            <motion.div
               onClick={(event) => event.stopPropagation()}
               className="
                 w-full
@@ -32,6 +38,25 @@ export default function Modal({
                 border-slate-800
                 p-6
                 shadow-xl"
+              initial={{
+                opacity: 0,
+                scale: 0.95,
+                y: 20,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0,
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.95,
+                y: 20,
+              }}
+              transition={{
+                duration: 0.25,
+                ease: "easeOut",
+              }}
             >
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-2xl font-bold">
@@ -49,7 +74,9 @@ export default function Modal({
                 </div>
 
                 {children}
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
+        )}
+        </AnimatePresence>
     )
 }

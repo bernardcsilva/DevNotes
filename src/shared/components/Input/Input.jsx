@@ -19,6 +19,8 @@ export default function Input({
             transition
             focus:border-blue-500
             ${className}
+            text-white
+            placholder: text-slate-400
           `}
           {...props}
         />
